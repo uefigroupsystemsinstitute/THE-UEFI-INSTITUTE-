@@ -1,0 +1,1296 @@
+/* ==========================================
+   1. GLOBAL VARIABLES & RESET 
+   ========================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --midnight-blue: #001F3F;
+    --gold: #FFD700;
+    --off-white: #F9F9F9;
+    --teal: #008080;
+    --text-dark: #212529;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--off-white);
+    color: var(--text-dark);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+/* ==========================================
+   FIXED HORIZONTAL NAVIGATION (Multi-Link)
+   ========================================== */
+header {
+    background-color: var(--midnight-blue);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between; /* Logo on left, Links on right */
+    align-items: center;
+    padding: 0.8rem 2%; /* Reduced side padding to give more room */
+    max-width: 1400px; /* Increased max-width for the long menu */
+    margin: auto;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex; /* THIS MAKES THEM HORIZONTAL */
+    flex-direction: row; 
+    gap: 0.8rem; /* Reduced gap so all 11 links fit */
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+.nav-links a {
+    color: var(--off-white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.8rem; /* Slightly smaller font to fit 11 items */
+    white-space: nowrap; /* Prevents links from breaking into two lines */
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--gold);
+}
+
+/* Special styling for the Enroll button to make it stand out */
+.btn-nav {
+    background-color: var(--gold);
+    color: var(--midnight-blue) !important;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700 !important;
+}
+
+/* RESPONSIVE: If the screen is too small, we might need a scrollbar 
+   or a hamburger menu later, but this keeps it horizontal for now. */
+@media (max-width: 1100px) {
+    .nav-links {
+        gap: 0.5rem;
+    }
+    .nav-links a {
+        font-size: 0.75rem;
+    }
+}
+
+/* ==========================================
+   3. GENERAL UI COMPONENTS (Buttons, Canvas)
+   ========================================== */
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: var(--midnight-blue);
+    pointer-events: none; /* Allows clicking through stars to links */
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0.5rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: var(--gold);
+    color: var(--midnight-blue);
+    border: 1px solid var(--gold);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.btn-primary:hover {
+    background-color: #f1cc00;
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   4. HOME PAGE (Hero, Strategy, Pillars)
+   ========================================== */
+.hero {
+    position: relative;
+    text-align: center;
+    padding: 100px 20px;
+    min-height: 60vh;
+    color: var(--off-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero h1 {
+    color: var(--gold);
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    max-width: 650px;
+    margin: 0 auto 1.5rem auto;
+    opacity: 0.9;
+}
+
+.strategy {
+    background-color: rgba(0, 128, 128, 0.9);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.pillars {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 60px 5%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+    border-top: 5px solid var(--midnight-blue);
+}
+
+.card h3 {
+    color: var(--midnight-blue);
+    margin-bottom: 1rem;
+}
+
+/* ==========================================
+   5. INITIATIVES (Anthoninah / Wilson)
+   ========================================== */
+.initiative-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 5%;
+}
+
+.initiative-hero {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: var(--midnight-blue);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 50px;
+}
+
+.initiative-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.info-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    border-bottom: 4px solid var(--teal);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.info-card .icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.action-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: var(--teal);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.content-break {
+    background: #f0f4f8;
+    padding: 50px;
+    border-radius: 12px;
+    border-left: 10px solid var(--teal);
+}
+
+/* ==========================================
+   6. FOOTER
+   ========================================== */
+footer {
+    background-color: var(--midnight-blue);
+    color: var(--off-white);
+    text-align: center;
+    padding: 2.5rem;
+    margin-top: 4rem;
+}
+/* ==========================================
+   7. AI TUTOR INTERFACE 
+   ========================================== */
+.tutor-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.tutor-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden; /* Prevents the whole page from scrolling */
+}
+
+/* Sidebar */
+.tutor-sidebar {
+    width: 260px;
+    background: #f4f4f4;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.module-list {
+    list-style: none;
+    margin-top: 20px;
+    flex: 1;
+}
+
+.module-list li {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+.module-list li.active, .module-list li:hover {
+    background: var(--midnight-blue);
+    color: white;
+}
+
+.tutor-status {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tutor-status .dot {
+    height: 8px;
+    width: 8px;
+    background: #2ecc71;
+    border-radius: 50%;
+}
+
+/* Chat Interface */
+.chat-interface {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+
+.chat-window {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.ai-message {
+    align-self: flex-start;
+    background: #f0f0f0;
+    color: var(--text-dark);
+    border-bottom-left-radius: 2px;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: var(--midnight-blue);
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+/* Chat Input Area */
+.chat-input-area {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.chat-input-area input:focus {
+    border-color: var(--teal);
+}
+
+#send-btn {
+    background: var(--teal);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+/* ==========================================
+   8. ENROLLMENT FORM STYLES
+   ========================================== */
+.enroll-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.enroll-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.enroll-header h1 {
+    color: var(--midnight-blue);
+    font-size: 2rem;
+}
+
+.enroll-form {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--midnight-blue);
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    border-color: var(--teal);
+}
+
+.btn-block {
+    width: 100%;
+    margin: 20px 0 0 0;
+    cursor: pointer;
+    border: none;
+    font-size: 1.1rem;
+}
+/* ==========================================
+   9. ABOUT PAGE STYLES
+   ========================================== */
+.about-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.about-hero {
+    text-align: center;
+    padding: 60px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.about-hero h1 {
+    font-size: 2.5rem;
+    color: var(--midnight-blue);
+    margin-bottom: 15px;
+}
+
+.about-story {
+    padding: 60px 0;
+    line-height: 1.8;
+}
+
+.story-text h2 {
+    color: var(--teal);
+    margin-bottom: 20px;
+}
+
+/* Strategy Detail Card */
+.strategy-card {
+    background: var(--midnight-blue);
+    color: white;
+    padding: 40px;
+    border-radius: 12px;
+    margin: 40px 0;
+}
+
+.strategy-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.step {
+    flex: 1;
+    min-width: 200px;
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.step-num {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--midnight-blue);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Pillar Grid */
+.pillar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.pillar-item {
+    padding: 20px;
+    border-left: 4px solid var(--teal);
+    background: #fff;
+}
+
+@media (max-width: 768px) {
+    .pillar-grid { grid-template-columns: 1fr; }
+}
+/* ==========================================
+   10. VISION SECTION STYLES
+   ========================================== */
+.vision-statement {
+    padding: 80px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.vision-box {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.03);
+}
+
+.vision-box .label {
+    display: inline-block;
+    color: var(--teal);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+.vision-box h2 {
+    font-size: 2.2rem;
+    color: var(--midnight-blue);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.vision-box p {
+    font-size: 1.15rem;
+    color: #555;
+    font-style: italic;
+}
+/* ==========================================
+   11. CONTACT PAGE STYLES
+   ========================================== */
+.contact-container {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.contact-header h1 {
+    font-size: 2.5rem;
+    color: var(--midnight-blue);
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 50px;
+}
+
+.contact-form-section {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.info-block h3 {
+    color: var(--teal);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-block p {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.social-mini {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-info {
+        order: -1; /* Puts info above the form on small screens */
+        text-align: center;
+    }
+}
+/* ==========================================
+   12. TECH LAB SPECIFIC STYLES
+   ========================================== */
+
+/* Main Container */
+.lab-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+/* ==========================================
+   FIXED TECH-LAB HERO TEXT COLORS
+   ========================================== */
+
+.lab-hero {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 10; /* Ensures text stays above the particles */
+}
+
+/* "The Quant & AI Research Lab" */
+.lab-hero h1 {
+    font-size: 3rem;
+    color: #FFFFFF !important; /* Forced Pure White */
+    font-weight: 800;
+    margin: 15px 0;
+    /* This shadow creates a "border" around letters so they are visible on any background */
+    text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5); 
+    letter-spacing: -0.02em;
+}
+
+/* "Mastering high-level computation..." */
+.lab-hero p {
+    font-size: 1.25rem;
+    color: var(--gold) !important; /* Changed to Gold for high visibility */
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 500;
+    text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
+    opacity: 1; /* Ensure it is not see-through */
+}
+
+/* The "Ivy League Standards" Badge */
+.badge {
+    background: var(--gold);
+    color: var(--midnight-blue);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+/* Course Tracks Grid */
+.course-tracks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+/* Individual Track Cards */
+.track-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.track-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.track-card.highlight {
+    border: 2px solid var(--gold);
+    position: relative;
+}
+
+.track-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.track-card h3 {
+    color: var(--midnight-blue);
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.track-card p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+/* Lesson List inside Cards */
+.lesson-list {
+    list-style: none;
+    padding: 0;
+    margin-top: auto; /* Pushes list to bottom of card */
+}
+
+.lesson-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #f4f4f4;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.lesson-list li::before {
+    content: "→";
+    margin-right: 10px;
+    color: var(--teal);
+    font-weight: bold;
+}
+
+.lesson-list li a {
+    text-decoration: none;
+    color: var(--teal);
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.lesson-list li a:hover {
+    color: var(--midnight-blue);
+}
+
+/* Info Box / Footer of Lab */
+.info-box {
+    background: var(--midnight-blue);
+    color: white;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.info-box h4 {
+    color: var(--gold);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.info-box p {
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+/* ==========================================
+   13. SUPPORT / DONATION PAGE STYLES
+   ========================================== */
+.support-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.support-hero {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.support-hero h1 {
+    font-size: 3rem;
+    color: var(--midnight-blue);
+    margin-bottom: 20px;
+}
+
+.impact-tiers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.tier-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #eee;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.tier-card.featured {
+    border: 2px solid var(--gold);
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.tier-price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--teal);
+    margin-bottom: 10px;
+}
+
+.tier-card h3 {
+    margin-bottom: 15px;
+    color: var(--midnight-blue);
+}
+
+.tier-card p {
+    color: #666;
+    margin-bottom: 30px;
+    flex: 1;
+}
+
+.transparency-note {
+    background: #f4f7f9;
+    padding: 60px;
+    border-radius: 12px;
+    border-left: 8px solid var(--gold);
+}
+
+.note-content h2 {
+    color: var(--midnight-blue);
+    margin-bottom: 20px;
+}
+
+/* Ensure the Enroll button in nav stays visible on this page */
+.btn-nav {
+    background-color: var(--gold);
+    color: var(--midnight-blue) !important;
+}
+/* --- LOGO GLOBAL FIX --- */
+.logo {
+    color: var(--gold) !important; /* Force Gold color */
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-decoration: none !important; /* Remove underline */
+    white-space: nowrap;
+}
+
+/* Ensure it stays gold even after being clicked or hovered */
+.logo:visited, 
+.logo:hover, 
+.logo:active {
+    color: var(--gold) !important;
+    text-decoration: none !important;
+}
+/* ==========================================
+   14. COURSES & OPPORTUNITIES STYLES (REFINED)
+   ========================================== */
+.courses-container, .opp-container {
+    max-width: 1000px; /* Slightly wider for better balance */
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* ... keep your level-title and course-item styles ... */
+
+.opp-list {
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.opp-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+/* Make the opportunity links look professional */
+.opp-list li a {
+    text-decoration: none;
+    color: var(--teal);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+    display: block; /* Makes the whole line clickable */
+}
+
+.opp-list li a:hover {
+    color: var(--midnight-blue);
+    padding-left: 5px; /* Subtle movement on hover */
+}
+
+/* Ensure the footer on this page stays at the bottom */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1; /* Pushes footer to the bottom even if content is short */
+}
+/* --- COURSE ITEM ENHANCEMENTS --- */
+.course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.course-item {
+    background: white;
+    padding: 25px 40px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+    text-align: left;
+}
+
+.course-item:hover {
+    transform: translateX(10px);
+    border-left: 5px solid var(--teal);
+}
+
+.course-item.highlight-border {
+    border: 2px solid var(--gold);
+}
+
+.course-info h3 {
+    margin: 0;
+    color: var(--midnight-blue);
+    font-size: 1.2rem;
+}
+
+.syllabus-link {
+    text-decoration: none;
+    color: var(--teal);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border: 1px solid var(--teal);
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.syllabus-link:hover {
+    background: var(--teal);
+    color: white;
+}
+
+/* Ensure centering of titles */
+.level-title {
+    text-align: center;
+    display: block;
+    margin: 60px auto 30px auto;
+    font-size: 1.8rem;
+    border-bottom: none;
+}
+/* ==========================================
+   15. CENTERED OPPORTUNITIES & TABLES
+   ========================================== */
+.centered-content {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+}
+
+.giant-title {
+    font-size: 4rem; /* Increased size */
+    color: var(--midnight-blue);
+    margin-bottom: 10px;
+    font-weight: 900;
+}
+
+.subtitle {
+    font-size: 1.4rem;
+    color: var(--teal);
+    margin-bottom: 50px;
+}
+
+.table-section {
+    margin-top: 60px;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    color: var(--midnight-blue);
+    margin-bottom: 10px;
+}
+
+.section-desc {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Table Styling */
+.opp-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+}
+
+.opp-table th {
+    background-color: var(--midnight-blue);
+    color: white;
+    padding: 20px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.opp-table td {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+}
+
+.featured-table {
+    border: 2px solid var(--gold);
+}
+
+/* Table Logos */
+.table-logo {
+    height: 40px;
+    width: auto;
+    filter: grayscale(20%);
+    transition: filter 0.3s;
+}
+
+.table-logo:hover {
+    filter: grayscale(0%);
+}
+
+.table-link {
+    color: var(--teal);
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid var(--teal);
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.table-link:hover {
+    background: var(--teal);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .giant-title { font-size: 2.5rem; }
+    .opp-table thead { display: none; } /* Stack table on mobile */
+    .opp-table td { display: block; text-align: center; }
+}
+/* Professor Voice Pulse Animation */
+#prof-pulse-indicator {
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0px var(--gold);
+}
+
+#prof-pulse-indicator.speaking {
+    animation: pulse-red 1.5s infinite;
+    background-color: #ff4b2b !important; /* Changes to red/orange when speaking */
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 43, 0.7); }
+    70% { transform: scale(1.2); box-shadow: 0 0 0 15px rgba(255, 75, 43, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 43, 0); }
+}
+/* Add a vignette effect to the professor box to look more like a high-end webcam */
+.prof-video-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Make the professor image slightly desaturated for a "Professional Studio" look */
+.prof-video-box img {
+    filter: contrast(1.1) brightness(0.9) saturate(0.8);
+    transition: filter 0.5s ease;
+}
+
+.prof-video-box:hover img {
+    filter: contrast(1.1) brightness(1) saturate(1);
+}
+
+/* Scanline effect for the "Lecture Live" aesthetic */
+.prof-video-box::after {
+    content: " ";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background-size: 100% 3px, 3px 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+/* Add a vignette effect to the professor box to look more like a high-end webcam */
+.prof-video-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Make the professor image slightly desaturated for a "Professional Studio" look */
+.prof-video-box img {
+    filter: contrast(1.1) brightness(0.9) saturate(0.8);
+    transition: filter 0.5s ease;
+}
+
+.prof-video-box:hover img {
+    filter: contrast(1.1) brightness(1) saturate(1);
+}
+
+/* Scanline effect for the "Lecture Live" aesthetic */
+.prof-video-box::after {
+    content: " ";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background-size: 100% 3px, 3px 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+/* Direct Access Bar - Terminal Style */
+.direct-access-bar {
+    background: rgba(212, 175, 55, 0.05);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.terminal-link {
+    font-family: 'Courier New', monospace;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+    opacity: 0.8;
+}
+
+.terminal-link:hover {
+    color: var(--accent-gold);
+    opacity: 1;
+    text-shadow: 0 0 10px var(--accent-gold);
+}
+
+.terminal-link span {
+    color: var(--accent-gold);
+}
+
+/* Specific styling for the beginner track to differentiate it slightly */
+.track-card.beginner {
+    border: 1px dashed var(--accent-gold) !important;
+}
+/* TERMINAL OVERLAY STYLES */
+.terminal-container {
+    position: fixed;
+    bottom: 0;
+    right: 5%;
+    width: 450px;
+    background: rgba(2, 6, 23, 0.95);
+    border: 1px solid var(--accent-gold);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    font-family: 'Courier New', monospace;
+    z-index: 9999;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.terminal-header {
+    background: var(--accent-gold);
+    color: var(--terminal-dark);
+    padding: 10px 15px;
+    font-weight: 900;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+}
+
+.terminal-body {
+    padding: 15px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-output {
+    flex-grow: 1;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+}
+
+.terminal-output p { margin: 5px 0; }
+
+.terminal-input-line {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: var(--data-teal);
+    font-size: 0.85rem;
+}
+
+#terminal-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    flex-grow: 1;
+    outline: none;
+}
+
+/* Class to minimize the terminal */
+.terminal-minimized { transform: translateY(250px); }

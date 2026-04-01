@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEFI Tech Lab | Advanced Computational Research</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --terminal-dark: #020617;
+            --terminal-bg: #0f172a;
+            --accent-gold: #D4AF37;
+            --data-teal: #00f2ff;
+            --error-red: #ff3333;
+            --border-light: rgba(255, 255, 255, 0.1);
+            --midnight-blue: #001F3F; 
+        }
+
+        body {
+            background-color: var(--terminal-dark);
+            background-image: 
+                linear-gradient(rgba(2, 6, 23, 0.95), rgba(2, 6, 23, 0.95)),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .lab-hero {
+            background: radial-gradient(circle at center, rgba(0, 51, 102, 0.4) 0%, var(--terminal-dark) 100%),
+                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 140px 20px 80px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .badge {
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 5px 15px;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-size: 0.8rem;
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .lab-hero h1 { 
+            font-size: clamp(2.5rem, 6vw, 4rem); 
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0 0 1rem;
+            line-height: 1.1;
+        }
+
+        .lab-hero p { 
+            color: rgba(255,255,255,0.7); 
+            font-family: 'Courier New', monospace;
+            max-width: 700px; 
+            margin: 0 auto;
+        }
+
+        /* Stats Grid */
+        .lab-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--border-light);
+            max-width: 1200px;
+            margin: -40px auto 0;
+            border: 1px solid var(--border-light);
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: var(--terminal-dark);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .stat-card h4 { color: var(--accent-gold); font-size: 1.8rem; margin: 0; font-weight: 300; }
+        .stat-card p { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); margin: 5px 0 0; }
+
+        /* Direct Access Bar */
+        .direct-access-bar {
+            background: rgba(212, 175, 55, 0.05);
+            border-bottom: 1px solid var(--border-light);
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .terminal-link {
+            font-family: 'Courier New', monospace;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .terminal-link span { color: var(--accent-gold); margin-right: 8px; }
+        .terminal-link:hover { color: var(--accent-gold); text-shadow: 0 0 8px var(--accent-gold); }
+
+        /* Course Tracks */
+        .lab-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .course-tracks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .track-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-light);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .track-card:hover { border-color: var(--accent-gold); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
+
+        .track-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            filter: grayscale(1) contrast(1.2);
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .track-card:hover .track-image { filter: grayscale(0) contrast(1); opacity: 1; }
+
+        .track-content { padding: 30px; flex-grow: 1; }
+        .track-content h3 { font-size: 1.4rem; margin: 0 0 15px; text-transform: uppercase; }
+        .track-content p { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+        .lesson-list { list-style: none; padding: 0; margin-top: 20px; }
+        .lesson-list li { margin-bottom: 10px; font-family: 'Courier New', monospace; font-size: 0.85rem; }
+        .lesson-list li a { color: var(--accent-gold); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
+        .lesson-list li a:hover { border-bottom: 1px solid var(--accent-gold); }
+
+        /* COMPILER SANDBOX SECTION */
+        .sandbox-container {
+            border: 1px solid var(--border-light);
+            background: var(--terminal-bg);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+
+        .sandbox-header {
+            background: var(--terminal-dark);
+            border-bottom: 1px solid var(--border-light);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sandbox-title {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+        }
+
+        .sandbox-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-run {
+            background: var(--data-teal);
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-run:hover { box-shadow: 0 0 15px var(--data-teal); }
+
+        .sandbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 300px;
+        }
+
+        .editor-pane {
+            padding: 20px;
+            border-right: 1px solid var(--border-light);
+        }
+
+        .editor-textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            color: #a8b2d1;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .output-pane {
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-y: auto;
+        }
+
+        /* Footer Info Box */
+        .info-box {
+            border: 1px solid var(--accent-gold);
+            padding: 50px;
+            text-align: center;
+            background: rgba(212, 175, 55, 0.02);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: var(--terminal-dark);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: 900;
+            display: inline-block;
+            margin-top: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* TERMINAL OVERLAY STYLES */
+        .terminal-overlay {
+            position: fixed;
+            bottom: 0;
+            right: 5%;
+            width: 450px;
+            background: rgba(2, 6, 23, 0.98);
+            border: 1px solid var(--accent-gold);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            font-family: 'Courier New', monospace;
+            z-index: 9999;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .terminal-header {
+            background: var(--accent-gold);
+            color: var(--terminal-dark);
+            padding: 10px 15px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            border-radius: 6px 6px 0 0;
+            user-select: none;
+        }
+
+        .terminal-body {
+            padding: 15px;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-output {
+            flex-grow: 1;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .terminal-output p { margin: 5px 0; word-wrap: break-word; }
+
+        .terminal-input-line {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            color: var(--data-teal);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 10px;
+        }
+
+        #terminal-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        .terminal-minimized { transform: translateY(280px); }
+
+        @media (max-width: 768px) {
+            .lab-hero h1 { font-size: 2.5rem; }
+            .direct-access-bar { flex-direction: column; align-items: center; gap: 15px; }
+            .sandbox-grid { grid-template-columns: 1fr; }
+            .editor-pane { border-right: none; border-bottom: 1px solid var(--border-light); height: 200px; }
+            .terminal-overlay { width: 90%; right: 5%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">U.E.F.I. INSTITUTE</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="abouts.html">About</a></li>
+                <li><a href="tech-lab.html">Tech Lab</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="anthoninas-initiative.html">Girls</a></li>
+                <li><a href="wilsons-initiative.html">Men</a></li>
+                <li><a href="tutor.html">AI Professor</a></li>
+                <li><a href="opportunities-hub.html">Opportunities</a></li>
+                <li><a href="contactus.html">Contact</a></li>
+                <li><a href="enroll.html" class="btn-nav">Enroll</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="lab-hero">
+            <span class="badge">Sovereign Intelligence Lab</span>
+            <h1>The Quant & AI <br>Research Terminal</h1>
+            <p>Mastering the computational tools that govern global markets. Built for the African frontier.</p>
+        </section>
+
+        <div class="lab-stats">
+            <div class="stat-card"><h4>10ms</h4><p>Target Latency</p></div>
+            <div class="stat-card"><h4>Py3.12</h4><p>Core Runtime</p></div>
+            <div class="stat-card"><h4>H100</h4><p>Neural Compute</p></div>
+            <div class="stat-card"><h4>24/7</h4><p>Global Uplink</p></div>
+        </div>
+
+        <div class="direct-access-bar">
+            <a href="https://github.com" target="_blank" class="terminal-link"><span>[01]</span> GITHUB_REPOSITORY</a>
+            <a href="https://leetcode.com" target="_blank" class="terminal-link"><span>[02]</span> LEETCODE_ALGORITHMS</a>
+            <a href="https://scratch.mit.edu" target="_blank" class="terminal-link"><span>[03]</span> MIT_SCRATCH_LOGIC</a>
+        </div>
+
+        <div class="lab-container">
+            
+            <div class="course-tracks">
+                <div class="track-card">
+                    <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&w=800&q=80" alt="Code Blocks" class="track-image">
+                    <div class="track-content">
+                        <span style="color: var(--accent-gold); font-family: 'Courier New', monospace; font-size: 0.7rem;">[ LVL_01 FOUNDATIONS ]</span>
+                        <h3>Computational Logic</h3>
+                        <p>Mental models for recursion and variables using block-based architecture.</p>
+                        <ul class="lesson-list">
+                            <li><a href="https://scratch.mit.edu/projects/editor/">MIT Scratch: Logic Lab</a></li>
+                            <li><a href="tutor.html">Intro to Algorithmic Thinking</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="track-card">
+                    <img src="https://images.unsplash.com/photo-1535320903710-d993d3d77d29?auto=format&fit=crop&w=800&q=80" alt="Quant Analytics" class="track-image">
+                    <div class="track-content">
+                        <span style="color: var(--accent-gold); font-family: 'Courier New', monospace; font-size: 0.7rem;">[ LVL_02 QUANT ]</span>
+                        <h3>The "Quant" Specialist</h3>
+                        <p>High-frequency trading and financial engineering. Master the mathematics of wealth.</p>
+                        <ul class="lesson-list">
+                            <li><a href="https://ocw.mit.edu/">MIT: Linear Algebra</a></li>
+                            <li><a href="tutor.html">Algorithmic Trading Systems</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="track-card">
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80" alt="AI Research" class="track-image">
+                    <div class="track-content">
+                        <span style="color: var(--accent-gold); font-family: 'Courier New', monospace; font-size: 0.7rem;">[ LVL_03 NEURAL ]</span>
+                        <h3>AI & Machine Learning</h3>
+                        <p>Architecting LLMs and Neural Networks to solve industrial challenges.</p>
+                        <ul class="lesson-list">
+                            <li><a href="https://cs50.harvard.edu/ai/">Harvard: CS50 AI</a></li>
+                            <li><a href="tutor.html">Neural Networks from Scratch</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sandbox-container">
+                <div class="sandbox-header">
+                    <span class="sandbox-title">>> LIVE NODE: uefi_model_test.py</span>
+                    <div class="sandbox-controls">
+                        <button class="btn-run" onclick="executeMockCode()">[ RUN SCRIPT ]</button>
+                    </div>
+                </div>
+                <div class="sandbox-grid">
+                    <div class="editor-pane">
+<textarea class="editor-textarea" id="sandbox-editor" spellcheck="false">
+# UEFI Internal Sandbox Environment
+import numpy as np
+
+def calculate_alpha(volatility, returns):
+    """
+    Computes theoretical alpha generation.
+    """
+    signal = np.mean(returns) / volatility
+    return signal * 100
+
+v_index = 0.045
+asset_returns = [0.02, 0.05, 0.01, 0.08]
+
+alpha = calculate_alpha(v_index, asset_returns)
+print(f"Executing Model...")
+print(f"Target Alpha: {alpha:.2f}%")
+</textarea>
+                    </div>
+                    <div class="output-pane" id="sandbox-output">
+                        > Standby. Ready for execution...
+                    </div>
+                </div>
+            </div>
+
+            <section class="lab-footer">
+                <div class="info-box">
+                    <h4 style="color: var(--accent-gold); font-size: 1.6rem; letter-spacing: 2px;">UEFI VERIFICATION PROTOCOL</h4>
+                    <p style="max-width: 800px; margin: 20px auto; line-height: 1.8; opacity: 0.8; font-family: 'Courier New', monospace;">
+                        [ STATUS: VALIDATED ] <br>
+                        UEFI provides a Verified Proof-of-Work Badge certifying your ability to translate abstract theory into high-performance code.
+                    </p>
+                    <a href="enroll.html" class="btn-primary">Request Lab Credentials</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer style="padding: 50px; text-align: center; background: var(--midnight-blue); color: white; border-top: 1px solid var(--border-light);">
+        <p>&copy; 2026 Universal Empowerment & Future-Tech Institute. All rights reserved.</p>
+    </footer>
+
+    <div class="terminal-overlay terminal-minimized" id="terminal-overlay">
+        <div class="terminal-header" onclick="toggleTerminal()">
+            <span>>_ UEFI.OS // ROOT ACCESS</span>
+            <span id="terminal-toggle-icon">[ + ]</span>
+        </div>
+        <div class="terminal-body">
+            <div class="terminal-output" id="terminal-output">
+                <p>Initializing UEFI Sovereign Environment...</p>
+                <p>Target Latency: <span style="color: var(--data-teal);">10ms</span> | Compute: <span style="color: var(--accent-gold);">ONLINE</span></p>
+                <p>Type <span style="color: #fff; font-weight: bold;">help</span> for available modules.</p>
+            </div>
+            <div class="terminal-input-line">
+                <span>root@uefi:~$</span>
+                <input type="text" id="terminal-input" autocomplete="off">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- TERMINAL LOGIC ---
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalOverlay = document.getElementById('terminal-overlay');
+        const toggleIcon = document.getElementById('terminal-toggle-icon');
+
+        function toggleTerminal() {
+            terminalOverlay.classList.toggle('terminal-minimized');
+            toggleIcon.innerText = terminalOverlay.classList.contains('terminal-minimized') ? '[ + ]' : '[ - ]';
+            if (!terminalOverlay.classList.contains('terminal-minimized')) {
+                terminalInput.focus();
+            }
+        }
+
+        terminalInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const command = terminalInput.value.toLowerCase().trim();
+                printToTerminal(`root@uefi:~$ <span style="color:#fff;">${command}</span>`);
+                
+                // Command Routing
+                switch(command) {
+                    case 'help':
+                        printToTerminal(`Available commands:<br>
+                        - <span style="color:var(--data-teal)">boot quant</span>: Load trading modules<br>
+                        - <span style="color:var(--data-teal)">boot neural</span>: Load AI models<br>
+                        - <span style="color:var(--data-teal)">status</span>: Check node health<br>
+                        - <span style="color:var(--data-teal)">clear</span>: Clear terminal`);
+                        break;
+                    case 'boot quant':
+                        printToTerminal("Loading linear algebra vectors... <span style='color: var(--accent-gold);'>[SUCCESS]</span>");
+                        printToTerminal("Connecting to market data APIs... <span style='color: var(--accent-gold);'>[ESTABLISHED]</span>");
+                        break;
+                    case 'boot neural':
+                        printToTerminal("Allocating H100 GPU resources... <span style='color: var(--accent-gold);'>[SUCCESS]</span>");
+                        printToTerminal("Initializing PyTorch tensors... <span style='color: var(--accent-gold);'>[READY]</span>");
+                        break;
+                    case 'status':
+                        printToTerminal("Uplink: STABLE | Latency: 9ms | Nodes: 4/4 ACTIVE");
+                        break;
+                    case 'clear':
+                        terminalOutput.innerHTML = '';
+                        break;
+                    case '':
+                        break;
+                    default:
+                        printToTerminal(`Command not recognized: <span style="color:var(--error-red)">${command}</span>. Type 'help' for options.`);
+                }
+                
+                terminalInput.value = '';
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+        });
+
+        function printToTerminal(text) {
+            const p = document.createElement('p');
+            p.innerHTML = text;
+            terminalOutput.appendChild(p);
+        }
+
+        // --- COMPILER SANDBOX LOGIC ---
+        function executeMockCode() {
+            const outputPane = document.getElementById('sandbox-output');
+            outputPane.innerHTML = "> Compiling...<br>";
+            
+            setTimeout(() => {
+                outputPane.innerHTML += "> Executing Model...<br>";
+            }, 400);
+
+            setTimeout(() => {
+                outputPane.innerHTML += "> Target Alpha: <span style='color: var(--data-teal);'>88.89%</span><br>";
+                outputPane.innerHTML += "> <span style='color: var(--accent-gold);'>Process completed with exit code 0</span>";
+            }, 900);
+        }
+    </script>
+</body>
+</html>

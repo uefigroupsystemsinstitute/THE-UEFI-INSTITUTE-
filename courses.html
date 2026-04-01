@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEFI | Systems Institute Forge</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #010306; 
+            --nav-bg: #000000;
+            --card: #080c17;
+            --accent-gold: #e6c25a; 
+            --accent-green: #00ff87; 
+            --accent-blue: #3b82f6;
+            --musk-titanium: #cbd5e1;
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
+        * { box-sizing: border-box; cursor: crosshair; scroll-behavior: smooth; }
+
+        body { 
+            background-color: var(--bg); 
+            color: var(--text);
+            margin: 0; 
+            font-family: 'Times New Roman', Times, serif; /* Simons/Institutional Rigor */
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        /* Institutional Navigation */
+        header.top-nav {
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--accent-gold);
+            padding: 0 5%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 20px; }
+        
+        .logo-main { 
+            font-weight: 900; 
+            font-size: 1.1rem; 
+            letter-spacing: 1px; 
+            color: #fff;
+            border-left: 3px solid var(--accent-green);
+            padding-left: 10px;
+            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+        }
+
+        nav.main-links { display: flex; gap: 30px; align-items: center; }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: 0.2s;
+            font-weight: 700;
+        }
+
+        .nav-link:hover { color: var(--accent-gold); }
+        .home-bar-btn { color: var(--accent-green); border: 1px solid var(--accent-green); padding: 5px 15px; border-radius: 2px; }
+
+        .mastery-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-track { width: 80px; height: 3px; background: rgba(255,255,255,0.05); position: relative; }
+        .progress-fill { width: 45%; height: 100%; background: var(--accent-green); }
+
+        /* Main Content Engine */
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            background: radial-gradient(circle at 50% 0%, #0a1122 0%, #010306 100%);
+        }
+
+        .hero-section {
+            padding: 80px 8% 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        h1 { 
+            font-size: 4rem; 
+            font-weight: 900; 
+            margin: 0; 
+            line-height: 0.85; 
+            letter-spacing: -3px; 
+            text-transform: uppercase; 
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1 span { color: var(--accent-gold); font-style: italic; }
+
+        .philosophy-tagline {
+            color: var(--musk-titanium);
+            max-width: 900px;
+            margin-top: 25px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .content-wrap { padding: 60px 8%; }
+
+        /* Course Tier Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 60px 0 30px;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.02);
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Course Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 35px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+            background: #0c1221;
+        }
+
+        .meta-data {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            text-transform: uppercase;
+        }
+
+        .course-card h3 { 
+            font-size: 1.8rem; 
+            margin: 0 0 15px; 
+            font-weight: 900; 
+            color: #fff; 
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -1px;
+        }
+        
+        .course-card p { 
+            color: var(--text-muted); 
+            font-size: 14px; 
+            line-height: 1.6; 
+            margin-bottom: 30px; 
+            flex-grow: 1;
+        }
+
+        .btn-initialize {
+            background: #fff;
+            color: #000;
+            padding: 14px 24px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .course-card:hover .btn-initialize {
+            background: var(--accent-green);
+        }
+
+        /* Tier Specific Colors */
+        .tier-foundation { border-left-color: var(--accent-green) !important; }
+        .tier-intermediate { border-left-color: var(--accent-blue) !important; }
+        .tier-advanced { border-left-color: var(--accent-gold) !important; }
+
+        @media (max-width: 1000px) { h1 { font-size: 2.5rem; } nav.main-links { display: none; } }
+    </style>
+</head>
+<body>
+
+    <header class="top-nav">
+        <div class="logo-area">
+            <a href="index.html" class="nav-link home-bar-btn">← MAIN WEBSITE</a>
+            <div class="logo-main">UEFI SYSTEMS FORGE</div>
+        </div>
+        
+        <nav class="main-links">
+            <a href="#foundations" class="nav-link">Foundations</a>
+            <a href="#core-cs" class="nav-link">Core CS</a>
+            <a href="#quant-ai" class="nav-link">Quant & AI</a>
+            <div class="mastery-status">
+                INDEX: <div class="progress-track"><div class="progress-fill"></div></div> 45%
+            </div>
+        </nav>
+
+        <a href="#" class="btn-initialize" style="padding: 10px 20px; background: var(--accent-green);">Access_Terminal</a>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <div style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--accent-green); margin-bottom: 20px; font-weight: 800; letter-spacing: 2px;">// SYSTEM_STATUS: OPERATIONAL // DATA_SET: INSTITUTIONAL</div>
+            <h1>THE FORGE OF <span>INTELLIGENCE</span></h1>
+            <p class="philosophy-tagline">
+                The UEFI technical pipeline combines <strong>Simons'</strong> mathematical rigor, <strong>Musk's</strong> first-principles engineering, <strong>Khan's</strong> mastery-based pedagogy, and <strong>Larson's</strong> project-driven code execution.
+            </p>
+        </div>
+
+        <div class="content-wrap">
+            
+            <section id="foundations" class="section-header tier-foundation">
+                <div class="section-title">PHASE_01 // BARE-METAL FOUNDATIONS</div>
+                <div style="font-family: 'JetBrains Mono'; color: var(--accent-green); font-size: 10px;">[MASTERY REQUIRED]</div>
+            </section>
+
+            <div class="grid">
+                <div class="course-card">
+                    <div class="meta-data"><span>ID: DL101</span><span>HARDWARE PHYSICS</span></div>
+                    <h3>Intro to Computing</h3>
+                    <p>Analysis of the Von Neumann architecture, machine instruction cycles, and the physical logic of transistors. The foundation of all systems.</p>
+                    <a href="course-player.html?course=dl101" class="btn-initialize">Initialize Vector</a>
+                </div>
+                <div class="course-card">
+                    <div class="meta-data"><span>ID: DL102</span><span>OFFICE_SYSTEMS</span></div>
+                    <h3>Professional Mastery</h3>
+                    <p>Advanced data modeling in Excel and professional documentation architecture. Essential tools for institutional reporting.</p>
+                    <a href="course-player.html?course=dl102" class="btn-initialize">Initialize Vector</a>
+                </div>
+                <div class="course-card">
+                    <div class="meta-data"><span>ID: DL103</span><span>AI_ETHICS</span></div>
+                    <h3>Machine Learning HL</h3>
+                    <p>Deconstructing neural networks and the ethical landscape of algorithmic bias. High-level (HL) machine learning foundations.</p>
+                    <a href="course-player.html?course=dl103" class="btn-initialize">Initialize Vector</a>
+                </div>
+            </div>
+
+            <section id="core-cs" class="section-header tier-intermediate">
+                <div class="section-title">PHASE_02 // COMPUTATIONAL ARCHITECTURE</div>
+                <div style="font-family: 'JetBrains Mono'; color: var(--accent-blue); font-size: 10px;">[ENGINEERING CORE]</div>
+            </section>
+
+            <div class="grid">
+                <div class="course-card">
+                    <div class="meta-data"><span>ID: CS201</span><span>ORGANIZATION</span></div>
+                    <h3>Computer Organization</h3>
+                    <p>Fetch-Decode-Execute. Deep dive into CPU logic gates, memory hierarchies, and the speed-vs-capacity trade-offs of modern hardware.</p>
+                    <a href="course-player.html?course=cs201" class="btn-initialize">Initialize Vector</a>
+                </div>
+                <div class="course-card">
+                    <div class="meta-data"><span>ID: CS202</span><span>LOGIC</span></div>
+                    <h3>Computational Thinking</h3>
+                    <p>Algorithmic complexity (Big O), data sorting visualizations, and problem decomposition. If you can't trace it, you don't own it.</p>
+                    <a href="course-player.html?course=cs202" class="btn-initialize">Initialize Vector</a>
+                </div>
+                <div class="course-card">
+                    <div class="meta-data"><span>ID: CS301</span><span>PYTHON_UNI</span></div>
+                    <h3>Python for Computer Science</h3>
+                    <p>University-grade memory management, garbage collection, and advanced data structures (Heaps & Tries). No syntax; pure implementation.</p>
+                    <a href="course-player.html?course=cs301" class="btn-initialize">Initialize Vector</a>
+                </div>
+            </div>
+
+            <section id="quant-ai" class="section-header tier-advanced">
+                <div class="section-title" style="color: var(--accent-gold);">PHASE_03 // STOCHASTIC & QUANT SYSTEMS</div>
+                <div style="font-family: 'JetBrains Mono'; color: var(--accent-gold); font-size: 10px;">[INSTITUTIONAL GRADE]</div>
+            </section>
+
+            <div class="grid">
+                <div class="course-card">
+                    <div class="meta-data"><span>ID: CS302</span><span>MATH_FOR_ML</span></div>
+                    <h3>CS for Machine Learning</h3>
+                    <p>Linear Algebra, Multivariable Calculus, and Stochastic processes. The mathematical physics required to build, not just use, AI.</p>
+                    <a href="course-player.html?course=cs302" class="btn-initialize">Initialize Vector</a>
+                </div>
+                <div class="course-card">
+                    <div class="meta-data"><span>ID: CS303</span><span>AGENTIC_AI</span></div>
+                    <h3>Computer Science for AI</h3>
+                    <p>Transformer architectures, self-attention, and autonomous agent design. Mastering the logic behind LLMs and agentic workflows.</p>
+                    <a href="course-player.html?course=cs303" class="btn-initialize">Initialize Vector</a>
+                </div>
+                <div class="course-card" style="border-color: var(--accent-gold);">
+                    <div class="meta-data" style="color: var(--accent-gold);"><span>ID: CS501</span><span>QUANT_FINANCE</span></div>
+                    <h3>Quant & Software Engineering</h3>
+                    <p>High-frequency trading logic, network latency optimization, and system reliability for million-user infrastructures like Safaricom or Jane Street.</p>
+                    <a href="course-player.html?course=cs501" class="btn-initialize" style="background: var(--accent-gold);">Initialize Final Phase</a>
+                </div>
+            </div>
+
+            <div style="margin-top: 100px; padding: 60px; border: 1px solid var(--accent-green); background: rgba(0,255,135,0.02); text-align: center;">
+                <div style="font-family: 'JetBrains Mono'; color: var(--accent-green); margin-bottom: 20px;">[ FINAL_ASSESSMENT_PROTOCOL ]</div>
+                <h2 style="font-family: 'Inter'; font-size: 3rem; margin: 0; font-weight: 900;">THE CS401 CRUCIBLE</h2>
+                <p style="color: var(--text-muted); max-width: 600px; margin: 20px auto 40px; font-size: 1.1rem;">
+                    The ultimate adversarial vetting. Solve O(N log N) bottlenecks and build AI-solvable functions for global logistics.
+                </p>
+                <a href="course-player.html?course=cs401" class="btn-initialize" style="background: var(--accent-green); display: inline-block; padding: 20px 60px;">Enter the Crucible</a>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

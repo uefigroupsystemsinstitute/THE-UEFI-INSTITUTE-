@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Professor | UEFI Institute</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Professional Lab UI */
+        :root {
+            --midnight: #050a14;
+            --gold: #D4AF37;
+            --paper-white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        .tutor-page {
+            background-color: var(--midnight);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .tutor-container {
+            display: flex;
+            flex: 1;
+            margin-top: 80px; 
+            padding: 20px;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        /* LEFT: RESEARCH PAPER */
+        .paper-space {
+            flex: 2;
+            padding: 60px;
+            overflow-y: auto;
+            background: var(--paper-white);
+            color: #1a1a1a;
+            border-radius: 4px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            font-family: 'Charter', 'Georgia', serif;
+            line-height: 1.8;
+            border-top: 5px solid var(--gold);
+        }
+
+        .paper-content h1 { font-size: 2.2rem; margin-bottom: 10px; font-weight: 800; color: #000; }
+        .paper-content h3 { margin-top: 40px; color: #444; border-left: 4px solid var(--gold); padding-left: 15px; }
+
+        /* RIGHT: PROFESSOR LIVE CONSOLE */
+        .professor-console {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+        }
+
+        /* FIXED PROFESSOR IMAGE BOX */
+        .prof-video-box {
+            position: relative;
+            width: 100%;
+            height: 380px; 
+            background: #111; /* Background color if image fails */
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prof-video-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%; /* Focus on the face */
+            display: block;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* PROFESSOR OVERLAYS */
+        #prof-pulse-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        #prof-pulse-indicator.speaking {
+            background: #ff3e3e;
+            box-shadow: 0 0 15px #ff3e3e;
+            animation: ring-pulse 1.5s infinite;
+        }
+
+        @keyframes ring-pulse {
+            0% { transform: scale(1); opacity: 1; }
+            70% { transform: scale(2.2); opacity: 0; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        .prof-status-tag {
+            position: absolute;
+            top: 17px;
+            right: 40px;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        /* INTERACTION CONTROLS */
+        .interaction-box {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        #status-text {
+            color: var(--gold);
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        #mic-toggle {
+            padding: 18px;
+            border: 2px solid var(--gold);
+            background: transparent;
+            color: var(--gold);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 800;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        #mic-toggle:hover {
+            background: var(--gold);
+            color: var(--midnight);
+        }
+
+        #user-input {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        #user-input:focus { border-color: var(--gold); }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); }
+    </style>
+</head>
+<body class="tutor-page">
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">U.E.F.I. INSTITUTE</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="abouts.html">About</a></li>
+                <li><a href="tech-lab.html">Tech Lab</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="anthoninas-initiative.html">Girls</a></li>
+                <li><a href="wilsons-initiative.html">Men</a></li>
+                <li><a href="tutor.html">AI Professor</a></li>
+                <li><a href="opportunities-hub.html">Opportunities</a></li>
+                <li><a href="contactus.html">Contact</a></li>
+                <li><a href="support-us.html">Support Us</a></li>
+                <li><a href="enroll.html" class="btn-nav">Enroll</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="tutor-container">
+        <section class="paper-space">
+            <div class="paper-content" id="paper-content">
+                <p style="color: var(--gold); font-weight: bold; letter-spacing: 1px;">LECTURE MATERIAL: CS402</p>
+                <h1>Neural Architecture Search: Automated Deep Learning</h1>
+                <p style="font-style: italic; color: #777;">Published by UEFI Institute of Advanced Intelligence (2026)</p>
+                
+                <h3>I. Abstract</h3>
+                <p>Automating the design of neural network architectures (NAS) is the next frontier in AI. This paper outlines how algorithms can replace the manual "trial and error" process currently used by engineers to build large-scale models.</p>
+                
+                <h3>II. Key Terminologies</h3>
+                <ul>
+                    <li><strong>Search Space:</strong> The defined boundaries of possible model designs.</li>
+                    <li><strong>Search Strategy:</strong> The logic (RL or Evolution) used to pick designs.</li>
+                    <li><strong>Performance Estimation:</strong> Assessing a model's potential without full training.</li>
+                </ul>
+
+                <h3>III. Core Content</h3>
+                <p>NAS allows for the discovery of architectures that are specifically optimized for hardware, such as edge devices or mobile processors, significantly reducing latency while maintaining accuracy.</p>
+
+                <h3>IV. Summary</h3>
+                <p>The goal is a "Sovereign AI"—one that can improve its own structure through recursive architectural search.</p>
+            </div>
+        </section>
+
+        <section class="professor-console">
+            <div class="prof-video-box">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800&h=1000" alt="Professor Oneiro">
+                
+                <div id="prof-pulse-indicator"></div>
+                <span class="prof-status-tag">LECTURE LIVE</span>
+            </div>
+
+            <div class="interaction-box">
+                <div id="status-text">PROFESSOR STANDBY...</div>
+                
+                <button id="mic-toggle">🎤 TOGGLE VOICE MODE</button>
+                
+                <input type="text" id="user-input" placeholder="Enter question for the Professor..." autocomplete="off">
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
